@@ -1,59 +1,9 @@
 import React from "react";
 // import "antd/dist/antd.css";
-import { gql } from "apollo-boost";
 import { useQuery } from "@apollo/react-hooks";
 
 import { Node, NodeData } from "./Node";
-
-const GET_NODES = gql`
-  query getAllNodes {
-    Node {
-      id
-      name
-      description
-      children {
-        id
-        name
-        description
-        children {
-          id
-          name
-          description
-          children {
-            id
-            name
-            description
-            children {
-              id
-              name
-              description
-              children {
-                id
-                name
-                description
-                children {
-                  id
-                  name
-                  description
-                  children {
-                    id
-                    name
-                    description
-                    children {
-                      id
-                      name
-                      description
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
+import { GET_NODES } from "./queries";
 
 function App() {
   const { loading, error, data } = useQuery<{ Node: NodeData[] }>(GET_NODES);
@@ -65,7 +15,7 @@ function App() {
   return (
     <div>
       {data!.Node.map(({ id, name, description, children }) => (
-        <Node key={id} head={name} body={description}>
+        <Node key={id} id={id} head={name} body={description}>
           {children}
         </Node>
       ))}

@@ -14,7 +14,7 @@ export const Children = ({ children }: Props) => (
     </LineWrapper>
     <List>
       {children.map(({ id, name, description, children }) => (
-        <Node key={id} head={name} body={description}>
+        <Node key={id} id={id} head={name} body={description}>
           {children}
         </Node>
       ))}

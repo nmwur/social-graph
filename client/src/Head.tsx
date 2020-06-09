@@ -7,7 +7,7 @@ interface Props {
 }
 
 const Head = ({ children, className }: Props) => (
-  <div className={className} contentEditable>
+  <div className={className} contentEditable suppressContentEditableWarning>
     {children}
   </div>
 );

@@ -1,17 +1,34 @@
 import React from "react";
 import styled from "styled-components";
+import { useQuery } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
+
+const GET_IS_DRAGGING = gql`
+  {
+    draggedNodeId @client
+  }
+`;
 
 interface Props {
+  id: string;
   className?: string;
 }
 
-const Dot = ({ className }: Props) => (
-  <div className={className}>
-    <OuterCircle>
-      <InnerCircle />
-    </OuterCircle>
-  </div>
-);
+const Dot = ({ id, className }: Props) => {
+  const { client } = useQuery(GET_IS_DRAGGING);
+
+  const onDragStart = () => client.writeData({ data: { draggedNodeId: id } });
+
+  const onDragEnd = () => client.writeData({ data: { draggedNodeId: null } });
+
+  return (
+    <div className={className}>
+      <OuterCircle draggable onDragStart={onDragStart} onDragEnd={onDragEnd}>
+        <InnerCircle />
+      </OuterCircle>
+    </div>
+  );
+};
 
 const OuterCircle = styled.div`
   background-color: none;
